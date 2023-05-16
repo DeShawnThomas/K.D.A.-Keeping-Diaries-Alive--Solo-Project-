@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/css/styles.css">
+    <title>K.D.A. (VALORANT)</title>
+</head>
+<body class="bg-dark">
+    <div class="container card bg-danger text-white border-secondary border-4 p-3 mt-3">
+        <div class="row align-items-center">
+            <div class="col-md-4">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <img src="{{ url_for('static', filename='img/VALORANT-Logo-0.png') }}" alt="VALORANT logo in white" class="img-fluid border border-white border-4 rounded-4" style="max-width: 200px;">
+                    </div>
+                    <div class="col">
+                        <h4 class="mt-3">K.D.A. Homepage</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 text-center">
+                <h1 class="large-heading">Welcome {{user.first_name}}!</h1>
+                <h2>{{user.riot_identification}}</h2>
+            </div>
+            <div class="col-md-4 text-end align-self-start">
+                <a href="/logout" class="btn btn-warning btn-lg">Logout</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mt-4">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active" id="dashboard-tab" data-toggle="pill" href="/dashboard" role="tab" aria-controls="section1" aria-selected="true">Dashboard</a>
+                    <a class="nav-link" id="all-match-statistics-tab" data-toggle="pill" href="/matchstats" role="tab" aria-controls="section2" aria-selected="false">All Match Statistics</a>
+                    <a class="nav-link" id="all-diary-entries-tab" data-toggle="pill" href="/diaryentries" role="tab" aria-controls="section3" aria-selected="false">All Diary Entries</a>
+                    <a class="nav-link" id="daily-goals-tab" data-toggle="pill" href="/dailygoals" role="tab" aria-controls="section4" aria-selected="false">Daily Goals</a>
+                    <a class="nav-link" id="valorant-general-info-tab" data-toggle="pill" href="/generalinfo" role="tab" aria-controls="section5" aria-selected="false">VALORANT General Info</a>
+                </div>
+            </div>
+            
+            <div class="col-md-6 text-center">
+                <div class="row">
+                    <div class="col-md-6 offset-md-4">
+                        <h4>Current Rank:</h4>
+                        <p><img src="{{ url_for('static', filename='img/' + rank_icons.get(user.current_rank, 'default.jpg')) }}" style="width: 100px; height: 100px;"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 offset-md-4">
+                        <h4>Goal Rank:</h4>
+                        <p><img src="{{ url_for('static', filename='img/' + rank_icons.get(user.goal_rank, 'default.jpg')) }}" style="width: 100px; height: 100px;"></p>
+                    </div>
+                </div>            
+            </div>
+        </div>
+            <a href="/new/diary" class="btn btn-primary btn-lg mx-2">New Diary Entry</a>
+    </div>
+</body>
+</html>

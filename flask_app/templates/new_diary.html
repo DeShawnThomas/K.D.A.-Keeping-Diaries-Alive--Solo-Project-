@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <title>K.D.A. (VALORANT)</title>
+</head>
+<body class="bg-dark">
+    <div class="container">
+        <div class="row justify-content-end mt-3">
+            <div class="col-12 col-md-6 text-md-end">
+                <a href="/dashboard" class="btn btn-danger btn-lg">Return to Dashboard</a>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-3">
+            <div class="card col-12 bg-danger text-white p-3 border-secondary border-4">
+                <h1>New Diary Entry</h1>
+                <div class="p-5 mb-2 justify-content-center card col-12 bg-secondary text-white text-center p-3 border-dark border-4">
+                    {% with messages = get_flashed_messages(category_filter=['entry']) %}
+                        {% if messages %}
+                <div class="alert alert-warning" role="alert">
+                    <strong>Warning!!!</strong>
+                        {% for message in messages %}
+                        <p>{{message}}</p>
+                        {% endfor %}
+                </div>
+                {% endif %}
+            {% endwith %}
+                <div class="container bg-danger pb-5 text-center border border-dark border-4">
+                    <form action="/new/diary/entry" method="post" class="p-3 mx-auto">
+                        <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group text-center">
+                                <label for="match_date">Match Date:</label>
+                                <input type="date" name="match_date" class="form-control mb-4 border-dark border-4">
+                            </div>
+                            <div class="form-group text-center">
+                                <label for="agent">Agent:</label>
+                                <select id="agent" name="agent" class="form-control mb-4 border-dark border-4">
+                                    <option value="">-- Select an Agent --</option>
+                                    <option value="Brimstone">Brimstone</option>
+                                    <option value="Viper">Viper</option>
+                                    <option value="Omen">Omen</option>
+                                    <option value="Killjoy">Killjoy</option>
+                                    <option value="Cypher">Cypher</option>
+                                    <option value="Sova">Sova</option>
+                                    <option value="Sage">Sage</option>
+                                    <option value="Phoenix">Phoenix</option>
+                                    <option value="Jett">Jett</option>
+                                    <option value="Reyna">Reyna</option>
+                                    <option value="Raze">Raze</option>
+                                    <option value="Breach">Breach</option>
+                                    <option value="Skye">Skye</option>
+                                    <option value="Yoru">Yoru</option>
+                                    <option value="Astra">Astra</option>
+                                    <option value="Kay/O">Kay/O</option>
+                                    <option value="Chamber">Chamber</option>
+                                    <option value="Neon">Neon</option>
+                                    <option value="Fade">Fade</option>
+                                    <option value="Harbor">Harbor</option>
+                                    <option value="Gekko">Gekko</option>
+                                </select>
+                            </div>
+                            <div class="form-group text-center">
+                                <label for="map">Map:</label>
+                                <select id="map" name="map" class="form-control mb-4 border-dark border-4">
+                                    <option value="">-- Select Map Played --</option>
+                                    <option value="Bind">Bind</option>
+                                    <option value="Haven">Haven</option>
+                                    <option value="Split">Split</option>
+                                    <option value="Ascent">Ascent</option>
+                                    <option value="Icebox">Icebox</option>
+                                    <option value="Breeze">Breeze</option>
+                                    <option value="Fracture">Fracture</option>
+                                    <option value="Pearl">Pearl</option>
+                                    <option value="Lotus">Lotus</option>
+                                </select>
+                            </div>
+                            <div class="form-group text-center">
+                                <label for="start_rank">Current Rank?</label>
+                                <select id="start_rank" name="start_rank" class="form-control mb-4 border-dark border-4">
+                                    <option value="">-- Select Your Rank --</option>
+                                    <option value="Unranked">Unranked</option>
+                                    <option value="Bronze 1">Bronze 1</option>
+                                    <option value="Bronze 2">Bronze 2</option>
+                                    <option value="Bronze 3">Bronze 3</option>
+                                    <option value="Silver 1">Silver 1</option>
+                                    <option value="Silver 2">Silver 2</option>
+                                    <option value="Silver 3">Silver 3</option>
+                                    <option value="Gold 1">Gold 1</option>
+                                    <option value="Gold 2">Gold 2</option>
+                                    <option value="Gold 3">Gold 3</option>
+                                    <option value="Platinum 1">Platinum 1</option>
+                                    <option value="Platinum 2">Platinum 2</option>
+                                    <option value="Platinum 3">Platinum 3</option>
+                                    <option value="Diamond 1">Diamond 1</option>
+                                    <option value="Diamond 2">Diamond 2</option>
+                                    <option value="Diamond 3">Diamond 3</option>
+                                    <option value="Ascendant 1">Ascendant 1</option>
+                                    <option value="Ascendant 2">Ascendant 2</option>
+                                    <option value="Ascendant 3">Ascendant 3</option>
+                                    <option value="Immortal 1">Immortal 1</option>
+                                    <option value="Immortal 2">Immortal 2</option>
+                                    <option value="Immortal 3">Immortal 3</option>
+                                    <option value="Radiant">Radiant</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group text-center">
+                                <p class="form-label fs-4">Team MVP?:</p>
+                                <div class="form-check-inline fs-4">
+                                    <input type="radio" name="team_mvp" id="team_mvp_yes" value="1" class="form-check-input border-dark border-4">
+                                    <label for="team_mvp_yes" class="form-label">Yes</label>
+                                </div>
+                                <div class="form-check-inline fs-4">
+                                    <input type="radio" name="team_mvp" id="team_mvp_no" value="0" class="form-check-input border-dark border-4">
+                                    <label for="team_mvp_no" class="form-label">No</label>
+                                </div>
+                                <p class="form-label fs-4">Match MVP?:</p>
+                                <div class="form-check-inline fs-4">
+                                    <input type="radio" name="match_mvp" id="match_mvp_yes" value="1" class="form-check-input border-dark border-4">
+                                    <label for="match_mvp_yes" class="form-label">Yes</label>
+                                </div>
+                                <div class="form-check-inline fs-4">
+                                    <input type="radio" name="match_mvp" id="match_mvp_no" value="0" class="form-check-input border-dark border-4">
+                                    <label for="match_mvp_no" class="form-label">No</label>
+                                </div>
+                                <p class="form-label fs-4">Did you win?:</p>
+                                <div class="form-check-inline fs-4">
+                                    <input type="radio" name="win_loss" id="win_loss_yes" value="1" class="form-check-input border-dark border-4">
+                                    <label for="win_loss_yes" class="form-label">Yes</label>
+                                </div>
+                                <div class="form-check-inline fs-4">
+                                    <input type="radio" name="win_loss" id="win_loss_no" value="0" class="form-check-input border-dark border-4">
+                                    <label for="win_loss_no" class="form-label">No</label>
+                                </div>
+                                <div class="form-check-inline fs-4">
+                                    <input type="radio" name="win_loss" id="win_loss_tie" value="2" class="form-check-input border-dark border-4">
+                                    <label for="win_loss_tie" class="form-label">Tie</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="my_score">Your Team Score?</label>
+                                    <input type="number" name="my_score" id="my_score" min="0" max="30" class="mt-2 mb-4 border-dark border-4">
+                                </div>
+                                <div class="form-group">
+                                    <label for="opp_score">Opponent Team Score?</label>
+                                    <input type="number" name="opp_score" id="opp_score" min="0" max="30" class="border-dark border-4">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">Kills</div>
+                                <input type="text" name="kills" class="form-control mb-4 border-dark border-4">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">Deaths</div>
+                                <input type="text" name="deaths" class="form-control mb-4 border-dark border-4">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">Assists</div>
+                                <input type="text" name="assists" class="form-control mb-4 border-dark border-4">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">HS%</div>
+                                <input type="text" name="headshot_percentage" class="form-control mb-4 border-dark border-4">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">ADR</div>
+                                <input type="text" name="adr" class="form-control mb-4 border-dark border-4">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">ACS</div>
+                                <input type="text" name="acs" class="form-control mb-4 border-dark border-4">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="diary_entry">Diary Entry</label>
+                                    <textarea name="diary_entry" id="diary_entry" rows="4" class="form-control mb-4 border-dark border-4 col-12"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="youtube_link">YouTube Link</label>
+                                    <input type="text" name="youtube_link" id="youtube_link" class="form-control mb-4 border-dark border-4 col-12">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center mt-3">
+                            <button type="submit" class="btn btn-success border-dark border-4">Submit Diary Entry</button>
+                        </div>
+                    </div>
+                </form>
+                </div>
+        </div>
+    </div>
+</body>
+</html>

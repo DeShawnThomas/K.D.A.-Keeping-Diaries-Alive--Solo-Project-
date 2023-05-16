@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+    <title>K.D.A. (VALORANT)</title>
+</head>
+
+<body class="bg-dark">
+    <div class="container p-5 mb-2 justify-content-center mx-auto mt-3 card mx-auto bg-danger text-white text-center border-secondary border-4">
+        <div class="bg-dark p-2 rounded">
+            <a href="{{ url_for('register') }}" class="float-start">Need to start a diary? Click here to register.</a>
+            <div class="text-end">
+                <h1 class="text-danger">Returning Agents</h1>
+            </div>
+        </div> 
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-5 p-5 mb-2 justify-content-center mx-auto mt-3 card col-12 mx-auto bg-danger text-white text-center p-3 border-secondary border-4">
+            <h2 class="text-danger bg-dark rounded pb-2">Login</h2>
+            {% with messages = get_flashed_messages(category_filter=['login']) %}
+                {% if messages %}
+                <div class="alert alert-warning" role="alert">
+                    <strong>Warning!!!!</strong>
+                        {% for message in messages %}
+                        <p>{{message}}</p>
+                        {% endfor %}
+                </div>
+                {% endif %}
+            {% endwith %}
+            <form action="/returning" method="post" class="p-3">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="text" name="email" class="form-control mb-4 border-dark border-4">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" class="form-control mb-4 border-dark border-4">
+                </div>
+                <input type="submit" value="Login" class="btn btn-warning border-dark border-4">
+            </form>
+        </div>
+    </div>
+</body>
+</html>
