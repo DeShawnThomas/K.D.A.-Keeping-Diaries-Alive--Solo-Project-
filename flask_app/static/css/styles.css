@@ -11,3 +11,19 @@
 .large-heading {
     font-size: 2.5rem;
 }
+
+.nav-link {
+    color: white;
+    background-color: black;
+}
+
+.nav-pills .nav-link:hover {
+    color: red;
+}
+
+
+.nav-pills .nav-link.active {
+    background-color: green;
+    color: white;
+}
+

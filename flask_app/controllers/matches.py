@@ -53,7 +53,10 @@ def all_matches():
     
     user = User.get_one(session['user_id'])
 
-    return render_template('all_matches.html', user=user, matches=Match.get_all(), agent_images=agent_images, rank_icons=rank_icons)
+    matches = Match.get_all()
+    sorted_matches = sorted(matches, key=lambda match: match.match_date)
+
+    return render_template('all_matches.html', user=user, matches=sorted_matches, agent_images=agent_images, rank_icons=rank_icons)
 
 @app.route('/diaryentries')
 def all_entries():
@@ -62,4 +65,65 @@ def all_entries():
     
     user = User.get_one(session['user_id'])
 
-    return render_template('all_diary.html', user=user,  matches=Match.get_all(), agent_images=agent_images, rank_icons=rank_icons)
+    matches = Match.get_all()
+    sorted_matches = sorted(matches, key=lambda match: match.match_date)
+
+    return render_template('all_diary.html', user=user, matches=sorted_matches, agent_images=agent_images, rank_icons=rank_icons)
+
+@app.route('/match/<int:id>')
+def view_match(id):
+    if 'user_id' not in session:
+        return redirect('/logout')
+
+    user = User.get_one(session['user_id'])
+
+    return render_template('view_match.html', user=user, match=Match.get_one_by_id({'id': id}))
+
+@app.route('/edit/<int:id>')
+def edit_match(id):
+    if 'user_id' not in session:
+        return redirect('/logout')
+    
+    user = User.get_one(session['user_id'])
+
+    return render_template('edit_match.html', user=user,match=Match.get_one_by_id({'id': id}))
+
+@app.route('/edit/stats/<int:id>', methods=['POST'])
+def edit_match_played(id):
+    if 'user_id' not in session:
+        return redirect('/logout')
+    
+    if not Match.validate_match(request.form):
+        return redirect(f'/edit/{id}')
+
+    data = {
+        'id': id,
+        'match_date': request.form['match_date'],
+        'start_rank': request.form['start_rank'],
+        'agent': request.form['agent'],
+        'map': request.form['map'],
+        'team_mvp': request.form['team_mvp'],
+        'match_mvp': request.form['match_mvp'],
+        'win_loss': request.form['win_loss'],
+        'my_score': request.form['my_score'],
+        'opp_score': request.form['opp_score'],
+        'kills': request.form['kills'],
+        'deaths': request.form['deaths'],
+        'assists': request.form['assists'],
+        'headshot_percentage': request.form['headshot_percentage'],
+        'adr': request.form['adr'],
+        'acs': request.form['acs'],
+        'diary_entry': request.form['diary_entry'],
+        'youtube_link': request.form['youtube_link'],
+    }
+    
+    Match.update(data)
+    return redirect('/dashboard')
+
+@app.route('/delete/<int:id>')
+def never_happened(id):
+    if 'user_id' not in session:
+        return redirect('/logout')
+
+    Match.delete({'id':id})
+    return redirect('/dashboard')

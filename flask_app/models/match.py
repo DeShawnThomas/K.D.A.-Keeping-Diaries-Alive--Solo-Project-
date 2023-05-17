@@ -101,7 +101,7 @@ class Match:
     # Update
     @classmethod
     def update(cls, data):
-        query = "UPDATE matches SET match_date = %(match_date)s, start_rank =%(start_rank)s, agent = %(agent)s ,map = %(map)s,  team_mvp = %(team_mvp)s, match_mvp = %(match_mvp)s, win_loss = %(win_loss)s, my_score %(my_score)s, opp_score = %(opp_score)s, kills = %(kills)s, deaths = %(deaths)s, assists = %(assists)s, headshot_percentage = %(headshot_percentage)s, adr = %(adr)s, acs = %(acs)s, diary_entry = %(diary_entry)s, youtube_link = %(youtube_link)s WHERE id = %(id)s;"
+        query = "UPDATE matches SET match_date = %(match_date)s, start_rank = %(start_rank)s, agent = %(agent)s , map = %(map)s, team_mvp = %(team_mvp)s, match_mvp = %(match_mvp)s, win_loss = %(win_loss)s, my_score = %(my_score)s, opp_score = %(opp_score)s, kills = %(kills)s, deaths = %(deaths)s, assists = %(assists)s, headshot_percentage = %(headshot_percentage)s, adr = %(adr)s, acs = %(acs)s, diary_entry = %(diary_entry)s, youtube_link = %(youtube_link)s WHERE id = %(id)s;"
         return connectToMySQL(cls.db).query_db(query, data)
 
     # Delete

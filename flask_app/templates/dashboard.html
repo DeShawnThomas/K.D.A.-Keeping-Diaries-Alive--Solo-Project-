@@ -9,7 +9,7 @@
     <title>K.D.A. (VALORANT)</title>
 </head>
 <body class="bg-dark">
-    <div class="container card bg-danger text-white border-secondary border-4 p-3 mt-3">
+    <div class="container-fluid card bg-danger text-white border-secondary border-4 p-3 mt-3">
         <div class="row align-items-center">
             <div class="col-md-4">
                 <div class="row align-items-center">
@@ -26,17 +26,18 @@
                 <h2>{{user.riot_identification}}</h2>
             </div>
             <div class="col-md-4 text-end align-self-start">
-                <a href="/logout" class="btn btn-warning btn-lg">Logout</a>
+                <a href="/logout" class="btn btn-dark btn-lg">Logout</a>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6 mt-4">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link active" id="dashboard-tab" data-toggle="pill" href="/dashboard" role="tab" aria-controls="section1" aria-selected="true">Dashboard</a>
-                    <a class="nav-link" id="all-match-statistics-tab" data-toggle="pill" href="/matchstats" role="tab" aria-controls="section2" aria-selected="false">All Match Statistics</a>
-                    <a class="nav-link" id="all-diary-entries-tab" data-toggle="pill" href="/diaryentries" role="tab" aria-controls="section3" aria-selected="false">All Diary Entries</a>
-                    <a class="nav-link" id="daily-goals-tab" data-toggle="pill" href="/dailygoals" role="tab" aria-controls="section4" aria-selected="false">Daily Goals</a>
-                    <a class="nav-link" id="valorant-general-info-tab" data-toggle="pill" href="/generalinfo" role="tab" aria-controls="section5" aria-selected="false">VALORANT General Info</a>
+                    <a class="nav-link active border border-white" id="dashboard-tab" data-toggle="pill" href="/dashboard" role="tab" aria-controls="section1" aria-selected="true">Dashboard</a>
+                    <a class="nav-link border border-white" id="all-match-statistics-tab" data-toggle="pill" href="/matchstats" role="tab" aria-controls="section2" aria-selected="false">All Match Statistics</a>
+                    <a class="nav-link border border-white" id="all-diary-entries-tab" data-toggle="pill" href="/diaryentries" role="tab" aria-controls="section3" aria-selected="false">All Diary Entries</a>
+                    <a class="nav-link border border-white" id="daily-goals-tab" data-toggle="pill" href="/dailygoals" role="tab" aria-controls="section4" aria-selected="false">Daily Goals</a>
+                    <a class="nav-link border border-white" id="valorant-general-info-tab" data-toggle="pill" href="/generalinfo" role="tab" aria-controls="section5" aria-selected="false">VALORANT General Info</a>
+                    <a class="nav-link border border-white" id="edit-profile-info-tab" data-toggle="pill" href="/editprofile" role="tab" aria-controls="section6" aria-selected="false">Edit User Profile</a>
                 </div>
             </div>
             
@@ -55,7 +56,7 @@
                 </div>            
             </div>
         </div>
-            <a href="/new/diary" class="btn btn-primary btn-lg mx-2">New Diary Entry</a>
+            <a href="/new/diary" class="btn btn-secondary btn-lg mx-2">New Diary Entry</a>
     </div>
 </body>
 </html>
