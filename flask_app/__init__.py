@@ -23,13 +23,16 @@ agent_images = {
     "Kay/O": "KAYO_icon.webp",
     "Chamber": "Chamber_icon.jpg",
     "Neon": "Neon_icon.webp",
-    "Fade": "Fade_icon.webp",
+    "Fade": "Fade_icon.png",
     "Harbor": "Harbor_icon.webp",
     "Gekko": "Gekko_icon.png"
 }
 
 rank_icons = {
     "Unranked": "default.png",
+    "Iron 1": "Iron_1_Rank.png",
+    "Iron 2": "Iron_2_Rank.png",
+    "Iron 3": "Iron_3_Rank.png",
     "Bronze 1": "Bronze_1_Rank.png",
     "Bronze 2": "Bronze_2_Rank.png",
     "Bronze 3": "Bronze_3_Rank.png",
@@ -52,4 +55,16 @@ rank_icons = {
     "Immortal 2": "Immortal_2_Rank.png",
     "Immortal 3": "Immortal_3_Rank.png",
     "Radiant": "Radiant_Rank.png"
+}
+
+map_loads = {
+    "Ascent": "Loading_Screen_Ascent.webp",
+    "Bind": "Loading_Screen_Bind.webp",
+    "Breeze": "Loading_Screen_Breeze.webp",
+    "Fracture": "Loading_Screen_Fracture.webp",
+    "Haven": "Loading_Screen_Haven.webp",
+    "Icebox": "Loading_Screen_Icebox.webp",
+    "Split": "Loading_Screen_Split.webp",
+    "Lotus": "Loading_Screen_Lotus.webp",
+    "Pearl": "Loading_Screen_Pearl.webp"
 }

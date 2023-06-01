@@ -5,11 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="static/css/styles.css">
-    <title>K.D.A. (VALORANT)</title>
+    <title>K.D.A. (VALORANT) All Matches</title>
 </head>
 <body class="bg-dark">
+    <div id="particles-container"></div>
+
     <div class="container-fluid">
         <div class="row justify-content-end mt-3">
             <div class="col-12 col-md-6 text-md-end">
@@ -17,79 +18,83 @@
             </div>
         </div>
         <div class="row justify-content-center mt-3">
-            <div class="card col-12 bg-danger text-white p-3 border-secondary border-4">
-                <h1>All Match Statistics</h1>
-                <div class="p-5 mb-2 justify-content-center card col-12 bg-light text-white text-center p-3 border-dark border-4">
-                    <table class="table table-bordered table-striped table-hover table-sm fs-4 text-center">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>Match Date</th>
-                                <th>Rank</th>
-                                <th>Agent</th>
-                                <th>Map</th>
-                                <th>Team MVP?</th>
-                                <th>Match MVP?</th>
-                                <th>Win/Loss</th>
-                                <th>My Team Score</th>
-                                <th>Enemy Score</th>
-                                <th>Kills</th>
-                                <th>Deaths</th>
-                                <th>Assists</th>
-                                <th>HS%</th>
-                                <th>ADR</th>
-                                <th>ACS</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for match in matches %}
-                                <tr>
-                                    <td>{{match.match_date.strftime('%B %dth, %Y')}}</td>
-                                    <td><img src="{{ url_for('static', filename='img/' + rank_icons.get(match.start_rank, 'default.jpg')) }}" style="width: 50px; height: 50px;"></td>
-                                    <td><img src="{{ url_for('static', filename='img/' + agent_images.get(match.agent, 'default.jpg')) }}" style="width: 50px; height: 50px;"></td>
-                                    <td>{{match.map}}</td>
-                                    <td>
-                                        {% if match.team_mvp == 1 %}
-                                            Yes
-                                        {% else %}
-                                            No
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {% if match.match_mvp == 1 %}
-                                            Yes
-                                        {% else %}
-                                            No
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {% if match.win_loss == 1 %}
-                                            Win
-                                        {% elif match.win_loss == 0 %}
-                                            Loss
-                                        {% elif match.win_loss == 2%}
-                                            Tie
-                                        {% endif %}
-                                    </td>
-                                    <td>{{match.my_score}}</td>
-                                    <td>{{match.opp_score}}</td>
-                                    <td>{{match.kills}}</td>
-                                    <td>{{match.deaths}}</td>
-                                    <td>{{match.assists}}</td>
-                                    <td>{{match.headshot_percentage}}</td>
-                                    <td>{{match.adr}}</td>
-                                    <td>{{match.acs}}</td>
-                                    <td>                                
-                                        <a href="/edit/{{ match.id }}" class="btn btn-secondary btn-sm">Edit</a>
-                                        <a href="/delete/{{ match.id }}" class="btn btn-danger btn-sm">Delete</a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+            <div class="card bg-danger text-white p-3 border-secondary border-4">
+                <h1 class="text-center">All Match Statistics</h1>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    {% for match in matches %}
+                        <div class="col">
+                            <div class="card bg-light text-dark border-dark main-container">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ match.match_date.strftime('%B %dth, %Y') }}</h5>
+                                    <div class="row gx-4">
+                                        <div class="col-6">
+                                            <p><strong>Agent:</strong></p>
+                                            <p>{{match.agent}}</p>
+                                            <p><img src="{{ url_for('static', filename='img/' + agent_images.get(match.agent, 'default.jpg')) }}" alt="Agent Image" style="width: 50px; height: 50px;"> </p>
+                                            <p><strong>Rank:</strong></p>
+                                            <p>{{ match.start_rank }}</p>
+                                            <p><img src="{{ url_for('static', filename='img/' + rank_icons.get(match.start_rank, 'default.jpg')) }}" alt="Rank Icon" style="width: 50px; height: 50px;"></p>
+                                            <p><strong>Map:</strong></p>
+                                            <p>{{match.map}}</p>
+                                            <p><img src="{{ url_for('static', filename='img/' + map_loads.get(match.map, 'default.jpg')) }}" alt="Map Image" style="width: 250px; height: 125px;"></p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p><strong>Team MVP:</strong> {% if match.team_mvp == 1 %}Yes{% else %}No{% endif %}</p>
+                                            <p><strong>Match MVP:</strong> {% if match.match_mvp == 1 %}Yes{% else %}No{% endif %}</p>
+                                            <p><strong>Win/Loss:</strong> 
+                                                {% if match.win_loss == 1 %}
+                                                    Win
+                                                {% elif match.win_loss == 0 %}
+                                                    Loss
+                                                {% elif match.win_loss == 2 %}
+                                                    Tie
+                                                {% endif %}
+                                            </p>
+                                            <p><strong>My Team Score:</strong> {{ match.my_score }}</p>
+                                            <p><strong>Enemy Score:</strong> {{ match.opp_score }}</p>
+                                            <p><strong>Kills:</strong> {{ match.kills }}</p>
+                                            <p><strong>Deaths:</strong> {{ match.deaths }}</p>
+                                            <p><strong>Assists:</strong> {{ match.assists }}</p>
+                                            <p><strong>HS%:</strong> {{ match.headshot_percentage }}</p>
+                                            <p><strong>ADR:</strong> {{ match.adr }}</p>
+                                            <p><strong>ACS:</strong> {{ match.acs }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-auto d-flex justify-content-between">
+                                        <a href="/edit/{{ match.id }}" class="btn btn-secondary">Edit</a>
+                                        <a href="/delete/{{ match.id }}" class="btn btn-danger">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="{{ url_for('static', filename='js/particles.js-master/particles.js') }}"></script>
+    <script>
+        particlesJS('particles-container', {
+            particles: {
+                number: { value: 100 },
+                color: { value: '#dc3545' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5 },
+                size: { value: 3, random: true },
+                move: { enable: true, speed: 2 }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'repulse' },
+                    onclick: { enable: true, mode: 'push' }
+                }
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+
 </body>
 </html>

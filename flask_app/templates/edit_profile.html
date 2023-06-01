@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/css/styles.css">
+    <title>K.D.A. (VALORANT) Edit Profile</title>
+</head>
+<body class="bg-secondary">
+    <div id="particles-container"></div>
+
+    <div class="container">
+        <div class="row">
+                <div class="d-flex justify-content-center">
+                    <img src="{{ url_for('static', filename='img/edit_profile.png') }}" alt="Jett agent" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container p-5 justify-content-center mx-auto mt-3 card mx-auto bg-dark text-white text-center main-container">
+        <div class="d-flex justify-content-end">
+            <a href="{{ url_for('dashboard') }}" class="me-3">Change your mind? Click to go back home.</a>
+        </div>
+        <div class="text-start">
+            <h1 class="text-danger">Edit Profile</h1>
+        </div>
+    </div>
+    
+
+    <div class="row">
+        <div class="container col-lg-5 p-5 mb-2 justify-content-center mx-auto card col-12 mx-auto bg-danger text-white text-center p-3 main-container">
+            {% with messages = get_flashed_messages(category_filter=['register']) %}
+            {% if messages %}
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning!!!</strong>
+                {% for message in messages %}
+                <p>{{message}}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+            <form action="/edit/profile" method="post" class="p-3">
+                <div class="form-group d-flex justify-content-evenly">
+                    <div class="form-group mb-4">
+                        <label for="first_name">First Name:</label>
+                        <input type="text" name="first_name" class="form-control col-lg-5 border-black border-4" value="{{user.first_name}}">
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="last_name">Last Name:</label>
+                        <input type="text" name="last_name" class="form-control col-lg-5 border-black border-4" value="{{user.last_name}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="text" name="email" class="form-control mb-4 border-black border-4 rounded-bottom" value="{{user.email}}">
+                </div>
+                <div class="form-group d-flex justify-content-evenly">
+                    <div class="form-group">
+                        <label for="riot_identification">Riot ID:</label>
+                        <input type="text" name="riot_identification" class="form-control col-lg-4 mb-4 border-black border-4" value="{{user.riot_identification}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="favorite_agent">Favorite Agent?</label>
+                        <select id="favorite_agent" name="favorite_agent" class="form-control col-lg-4 mb-4 border-black border-4">
+                            <option value="">-- Select an Agent --</option>
+                            <option value="Brimstone" {% if user.favorite_agent == 'Brimstone' %}selected{% endif %}>Brimstone</option>
+                            <option value="Viper" {% if user.favorite_agent == 'Viper' %}selected{% endif %}>Viper</option>
+                            <option value="Omen" {% if user.favorite_agent == 'Omen' %}selected{% endif %}>Omen</option>
+                            <option value="Killjoy" {% if user.favorite_agent == 'Killjoy' %}selected{% endif %}>Killjoy</option>
+                            <option value="Cypher" {% if user.favorite_agent == 'Cypher' %}selected{% endif %}>Cypher</option>
+                            <option value="Sova" {% if user.favorite_agent == 'Sova' %}selected{% endif %}>Sova</option>
+                            <option value="Sage" {% if user.favorite_agent == 'Sage' %}selected{% endif %}>Sage</option>
+                            <option value="Phoenix" {% if user.favorite_agent == 'Phoenix' %}selected{% endif %}>Phoenix</option>
+                            <option value="Jett" {% if user.favorite_agent == 'Jett' %}selected{% endif %}>Jett</option>
+                            <option value="Reyna" {% if user.favorite_agent == 'Reyna' %}selected{% endif %}>Reyna</option>
+                            <option value="Raze" {% if user.favorite_agent == 'Raze' %}selected{% endif %}>Raze</option>
+                            <option value="Breach" {% if user.favorite_agent == 'Breach' %}selected{% endif %}>Breach</option>
+                            <option value="Skye" {% if user.favorite_agent == 'Skye' %}selected{% endif %}>Skye</option>
+                            <option value="Yoru" {% if user.favorite_agent == 'Yoru' %}selected{% endif %}>Yoru</option>
+                            <option value="Astra" {% if user.favorite_agent == 'Astra' %}selected{% endif %}>Astra</option>
+                            <option value="Kay/O" {% if user.favorite_agent == 'Kay/O' %}selected{% endif %}>Kay/O</option>
+                            <option value="Chamber" {% if user.favorite_agent == 'Chamber' %}selected{% endif %}>Chamber</option>
+                            <option value="Neon" {% if user.favorite_agent == 'Neon' %}selected{% endif %}>Neon</option>
+                            <option value="Fade" {% if user.favorite_agent == 'Fade' %}selected{% endif %}>Fade</option>
+                            <option value="Harbor" {% if user.favorite_agent == 'Harbor' %}selected{% endif %}>Harbor</option>
+                            <option value="Gekko" {% if user.favorite_agent == 'Gekko' %}selected{% endif %}>Gekko</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group d-flex justify-content-evenly">
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" name="password" class="form-control col-lg-4 mb-4 border-black border-4">
+                    </div>
+                    <div class="form-group">
+                        <label for="current_rank">Current Rank?</label>
+                        <select id="current_rank" name="current_rank" class="form-control col-lg-4 mb-4 border-black border-4">
+                            <option value="">-- Select a Rank --</option>
+                            <option value="Unranked" {% if user.current_rank == 'Unranked' %}selected{% endif %}>Unranked</option>
+                            <option value="Iron 1" {% if user.current_rank == 'Iron 1' %}selected{% endif %}>Iron 1</option>
+                            <option value="Iron 2" {% if user.current_rank == 'Iron 2' %}selected{% endif %}>Iron 2</option>
+                            <option value="Iron 3" {% if user.current_rank == 'Iron 3' %}selected{% endif %}>Iron 3</option>
+                            <option value="Bronze 1" {% if user.current_rank == 'Bronze 1' %}selected{% endif %}>Bronze 1</option>
+                            <option value="Bronze 2" {% if user.current_rank == 'Bronze 2' %}selected{% endif %}>Bronze 2</option>
+                            <option value="Bronze 3" {% if user.current_rank == 'Bronze 3' %}selected{% endif %}>Bronze 3</option>
+                            <option value="Silver 1" {% if user.current_rank == 'Silver 1' %}selected{% endif %}>Silver 1</option>
+                            <option value="Silver 2" {% if user.current_rank == 'Silver 2' %}selected{% endif %}>Silver 2</option>
+                            <option value="Silver 3" {% if user.current_rank == 'Silver 3' %}selected{% endif %}>Silver 3</option>
+                            <option value="Gold 1" {% if user.current_rank == 'Gold 1' %}selected{% endif %}>Gold 1</option>
+                            <option value="Gold 2" {% if user.current_rank == 'Gold 2' %}selected{% endif %}>Gold 2</option>
+                            <option value="Gold 3" {% if user.current_rank == 'Gold 3' %}selected{% endif %}>Gold 3</option>
+                            <option value="Platinum 1" {% if user.current_rank == 'Platinum 1' %}selected{% endif %}>Platinum 1</option>
+                            <option value="Platinum 2" {% if user.current_rank == 'Platinum 2' %}selected{% endif %}>Platinum 2</option>
+                            <option value="Platinum 3" {% if user.current_rank == 'Platinum 3' %}selected{% endif %}>Platinum 3</option>
+                            <option value="Diamond 1" {% if user.current_rank == 'Diamond 1' %}selected{% endif %}>Diamond 1</option>
+                            <option value="Diamond 2" {% if user.current_rank == 'Diamond 2' %}selected{% endif %}>Diamond 2</option>
+                            <option value="Diamond 3" {% if user.current_rank == 'Diamond 3' %}selected{% endif %}>Diamond 3</option>
+                            <option value="Ascendant 1" {% if user.current_rank == 'Ascendant 1' %}selected{% endif %}>Ascendant 1</option>
+                            <option value="Ascendant 2" {% if user.current_rank == 'Ascendant 2' %}selected{% endif %}>Ascendant 2</option>
+                            <option value="Ascendant 3" {% if user.current_rank == 'Ascendant 3' %}selected{% endif %}>Ascendant 3</option>
+                            <option value="Immortal 1" {% if user.current_rank == 'Immortal 1' %}selected{% endif %}>Immortal 1</option>
+                            <option value="Immortal 2" {% if user.current_rank == 'Immortal 2' %}selected{% endif %}>Immortal 2</option>
+                            <option value="Immortal 3" {% if user.current_rank == 'Immortal 3' %}selected{% endif %}>Immortal 3</option>
+                            <option value="Radiant" {% if user.current_rank == 'Radiant' %}selected{% endif %}>Radiant</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group d-flex justify-content-evenly">
+                    <div class="form-group">
+                        <label for="confirm_password">Confirm Password:</label>
+                        <input type="password" name="confirm_password" class="form-control col-lg-4 mb-4 border-black border-4">
+                    </div>
+                    <div class="form-group">
+                        <label for="goal_rank">Goal Rank?</label>
+                        <select id="goal_rank" name="goal_rank" class="form-control col-lg-4 mb-4 border-black border-4">
+                            <option value="">-- Select a Rank --</option>
+                            <option value="Iron 1" {% if user.goal_rank == 'Iron 1' %}selected{% endif %}>Iron</option>
+                            <option value="Bronze 1" {% if user.goal_rank == 'Bronze 1' %}selected{% endif %}>Bronze</option>
+                            <option value="Silver 1" {% if user.goal_rank == 'Silver 1' %}selected{% endif %}>Silver</option>
+                            <option value="Gold 1" {% if user.goal_rank == 'Gold 1' %}selected{% endif %}>Gold</option>
+                            <option value="Platinum 1" {% if user.goal_rank == 'Platinum 1' %}selected{% endif %}>Platinum</option>
+                            <option value="Diamond 1" {% if user.goal_rank == 'Diamond 1' %}selected{% endif %}>Diamond</option>
+                            <option value="Ascendant 1" {% if user.goal_rank == 'Ascendant 1' %}selected{% endif %}>Ascendant</option>
+                            <option value="Immortal 1" {% if user.goal_rank == 'Immortal 1' %}selected{% endif %}>Immortal</option>
+                            <option value="Radiant" {% if user.goal_rank == 'Radiant' %}selected{% endif %}>Radiant</option>                            
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group text-center">
+                    <input type="submit" value="Update" class="btn btn-dark border-danger border-4">
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+        
+    <script src="{{ url_for('static', filename='js/particles.js-master/particles.js') }}"></script>
+    <script>
+        particlesJS('particles-container', {
+            particles: {
+                number: { value: 100 },
+                color: { value: '#dc3545' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5 },
+                size: { value: 3, random: true },
+                move: { enable: true, speed: 2 }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'repulse' },
+                    onclick: { enable: true, mode: 'push' }
+                }
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+
+</body>
+</html>

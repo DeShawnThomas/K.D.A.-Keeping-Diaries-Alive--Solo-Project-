@@ -5,10 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
-    <title>K.D.A. (VALORANT)</title>
+    <link rel="stylesheet" href="static/css/styles.css">
+    <title>K.D.A. (VALORANT) Welcome</title>
 </head>
-<body class="bg-secondary">
-    <div class="container bg-dark pb-5">
+<body class="bg-secondary pt-5">
+    <div id="particles-container"></div>
+
+    <div class="container bg-dark p-4 main-container rounded">
         <div class="row align-items-center">
             <div class="col-sm">
                 <div class="d-flex justify-content-end">
@@ -30,31 +33,40 @@
         </div>
     </div>
 
-    <div class="container bg-danger pb-5">
+    <div class="container bg-danger pb-5 main-container rounded">
         <div class="row align-items-center text-center">
             <div>
                 <h1>Welcome to Keeping Diaries Alive, aka K.D.A</h1>
                 <h3>Your companion journaling app as you grind the VALORANT ranks!</h3>
+                <div class="col-lg-12 p-5">
+                    <img src="{{ url_for('static', filename='img/valorant-valorant-killjoy.gif') }}" class="img-fluid">
+                </div>
+
             </div>
         </div>
     </div>
 
-    <div class="container bg-danger">
-        <div class="row row-cols-4 gap-4 justify-content-center">
-            <div class="col">
-                <img src="{{ url_for('static', filename='img/V_AGENTS_587x900_Jett.png') }}" class="img-fluid">
-            </div>
-            <div class="col">
-                <img src="{{ url_for('static', filename='img/V_AGENTS_587x900_ALL_Sova_2.png') }}" class="img-fluid">
-            </div>
-            <div class="col">
-                <img src="{{ url_for('static', filename='img/V_AGENTS_587x900_Omen.png') }}" class="img-fluid">
-            </div>
-            <div class="col">
-                <img src="{{ url_for('static', filename='img/V_AGENTS_587x900_KillJoy_.png') }}" class="img-fluid">
-            </div>
-        </div>
-    </div>
+    <script src="{{ url_for('static', filename='js/particles.js-master/particles.js') }}"></script>
+    <script>
+        particlesJS('particles-container', {
+            particles: {
+                number: { value: 100 },
+                color: { value: '#dc3545' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5 },
+                size: { value: 3, random: true },
+                move: { enable: true, speed: 2 }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'repulse' },
+                    onclick: { enable: true, mode: 'push' }
+                }
+            }
+        });
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
 </body>
 </html>

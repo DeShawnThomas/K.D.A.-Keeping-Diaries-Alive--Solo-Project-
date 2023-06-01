@@ -61,7 +61,7 @@ class User:
     #Update
     @classmethod
     def update(cls, data):
-        query = "UPDATE users SET first_name = %(first_name)s, last_name = %(last_name)s, email = %(email)s, password = %(password)s, riot_identification = %(riot_identification)s, favorite_agent = %(favorite_agent)s, current_rank = %(current_rank)s, goal_rank = %(goal_rank)s, updated_at = %(updated_at)s WHERE id = %(id)s;"
+        query = "UPDATE users SET first_name = %(first_name)s, last_name = %(last_name)s, email = %(email)s, password = %(password)s, riot_identification = %(riot_identification)s, favorite_agent = %(favorite_agent)s, current_rank = %(current_rank)s, goal_rank = %(goal_rank)s WHERE id = %(id)s;"
         results = connectToMySQL(cls.db).query_db(query, data)
         return results
     
@@ -132,3 +132,39 @@ class User:
     @staticmethod
     def check_password(password_hash, password):
         return check_password_hash(password_hash, password)
+    
+    #validate updating user
+    @staticmethod
+    def validate_user_update(user):
+        is_valid=True
+        if len(user['first_name']) < 2:
+            flash("First name must be at least 2 characters.", "register")
+            is_valid = False
+        if len(user['last_name']) < 2:
+            flash("Last name must be at least 2 characters.", "register")
+            is_valid = False
+        if len(user['email']) < 1:
+            flash("Email must be entered.", "register")
+            is_valid = False
+        elif not EMAIL_REGEX.match(user['email']): 
+            flash("Invalid email address!", "register")
+            is_valid = False
+        if len(user['password']) < 8:
+            flash("Password must be at least 8 characters.", "register")
+            is_valid = False
+        if user['password'] != user['confirm_password']:
+            flash("Password and confirmation password do not match.", "register")
+            is_valid = False
+        if len(user['riot_identification']) > 16:
+            flash("Riot identification is too long.", "register")
+            is_valid = False
+        if '#' not in user['riot_identification']:
+            flash("Riot identification must include a '#' character", "register")
+            is_valid = False
+        if user['favorite_agent'] == '':
+            flash("Must enter favorite agent. The creator of this app really likes Killjoy :D", "register")
+        if user['current_rank'] == '':
+            flash("Must enter your current rank. There is even an option for 'unranked' before you protest!", "register")
+        if user['goal_rank'] == '':
+            flash("Must enter a goal rank. The creator of this app is hardstuck Diamond but he's got Ascendant dreams!", "register")
+        return is_valid

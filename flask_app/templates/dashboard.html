@@ -6,17 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <link rel="stylesheet" href="static/css/styles.css">
-    <title>K.D.A. (VALORANT)</title>
+    <title>K.D.A. (VALORANT) Dashboard</title>
 </head>
-<body class="bg-dark">
-    <div class="container-fluid card bg-danger text-white border-secondary border-4 p-3 mt-3">
+<body class="bg-dark p-5">
+    <div id="particles-container"></div>
+
+    <div class="container-fluid bg-danger text-white p-3 mb-5">
         <div class="row align-items-center">
             <div class="col-md-4">
                 <div class="row align-items-center">
                     <div class="col-auto">
                         <img src="{{ url_for('static', filename='img/VALORANT-Logo-0.png') }}" alt="VALORANT logo in white" class="img-fluid border border-white border-4 rounded-4" style="max-width: 200px;">
-                    </div>
-                    <div class="col">
                         <h4 class="mt-3">K.D.A. Homepage</h4>
                     </div>
                 </div>
@@ -24,39 +24,125 @@
             <div class="col-md-4 text-center">
                 <h1 class="large-heading">Welcome {{user.first_name}}!</h1>
                 <h2>{{user.riot_identification}}</h2>
+                <p><img src="{{ url_for('static', filename='img/' + agent_images.get(user.favorite_agent, 'default.jpg')) }}" style="width: 200px; height: 200px;"></p>
             </div>
             <div class="col-md-4 text-end align-self-start">
                 <a href="/logout" class="btn btn-dark btn-lg">Logout</a>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6 mt-4">
+        <div class="row p-5">
+            <div class="col-md-3 mt-4">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                     <a class="nav-link active border border-white" id="dashboard-tab" data-toggle="pill" href="/dashboard" role="tab" aria-controls="section1" aria-selected="true">Dashboard</a>
                     <a class="nav-link border border-white" id="all-match-statistics-tab" data-toggle="pill" href="/matchstats" role="tab" aria-controls="section2" aria-selected="false">All Match Statistics</a>
                     <a class="nav-link border border-white" id="all-diary-entries-tab" data-toggle="pill" href="/diaryentries" role="tab" aria-controls="section3" aria-selected="false">All Diary Entries</a>
-                    <a class="nav-link border border-white" id="daily-goals-tab" data-toggle="pill" href="/dailygoals" role="tab" aria-controls="section4" aria-selected="false">Daily Goals</a>
-                    <a class="nav-link border border-white" id="valorant-general-info-tab" data-toggle="pill" href="/generalinfo" role="tab" aria-controls="section5" aria-selected="false">VALORANT General Info</a>
-                    <a class="nav-link border border-white" id="edit-profile-info-tab" data-toggle="pill" href="/editprofile" role="tab" aria-controls="section6" aria-selected="false">Edit User Profile</a>
+                    <a class="nav-link border border-white" id="daily-goals-tab" data-toggle="pill" href="/dailygoals" role="tab" aria-controls="section4" aria-selected="false">Enter Daily Goals</a>
+                    <a class="nav-link border border-white" id="edit-profile-info-tab" data-toggle="pill" href="/edit" role="tab" aria-controls="section5" aria-selected="false">Edit User Profile</a>
+                </div>
+                <div class="text-center mt-4">
+                    <a href="/new/diary" class="btn btn-secondary btn-lg">New Diary Entry</a>
+                </div>            
+                <div class="d-flex flex-column align-items-center justify-content-center mt-4">
+                    <h4>Current Rank:</h4>
+                    <p><img src="{{ url_for('static', filename='img/' + rank_icons.get(user.current_rank, 'default.jpg')) }}" style="width: 100px; height: 100px;" class="mb-5"></p>
+                    <h4>Goal Rank:</h4>
+                    <p><img src="{{ url_for('static', filename='img/' + rank_icons.get(user.goal_rank, 'default.jpg')) }}" style="width: 100px; height: 100px;"></p>
                 </div>
             </div>
-            
-            <div class="col-md-6 text-center">
-                <div class="row">
-                    <div class="col-md-6 offset-md-4">
-                        <h4>Current Rank:</h4>
-                        <p><img src="{{ url_for('static', filename='img/' + rank_icons.get(user.current_rank, 'default.jpg')) }}" style="width: 100px; height: 100px;"></p>
-                    </div>
+                        
+            <div class="col-md-6 mt-4">
+                <div class="card bg-dark text-white p-3">
+                    <h4 class="text-center mb-4">Latest Match Entry</h4>
+                    {% if matches|length > 0 %}
+                        {% set latest_match = matches|sort(attribute='match_date')|last %}
+                        <h5 class="text-center">{{ latest_match.match_date.strftime('%B %dth, %Y') }}</h5>
+                        <div class="d-flex justify-content-evenly align-items-center">
+                            <div class="text-center">
+                                <p><strong>Start Rank:</strong></p>
+                                <p>{{latest_match.start_rank}}</p>
+                                <p><img src="{{ url_for('static', filename='img/' + rank_icons.get(latest_match.start_rank, 'default.jpg')) }}" style="width: 50px; height: 50px;"></p>
+                                <p><strong>Agent:</strong></p>
+                                <p>{{latest_match.agent}}</p>
+                                <p><img src="{{ url_for('static', filename='img/' + agent_images.get(latest_match.agent, 'default.jpg')) }}" style="width: 50px; height: 50px;"></p>
+                                <p><strong>Map:</strong></p>
+                                <p>{{latest_match.map}}</p>
+                                <p><img src="{{ url_for('static', filename='img/' + map_loads.get(latest_match.map, 'default.jpg')) }}" style="width: 300px; height: 150px;"></p>
+                                <p><strong>Team MVP:</strong></p>
+                                <p>{% if latest_match.team_mvp == 1 %}Yes{% else %}No{% endif %}</p>
+                                <p><strong>Match MVP:</strong></p>
+                                <p>{% if latest_match.match_mvp == 1 %}Yes{% else %}No{% endif %}</p>
+                                <p><strong>Result:</strong></p>
+                                <p>{% if latest_match.win_loss == 1 %}Win{% elif latest_match.win_loss == 0 %}Loss{% elif latest_match.win_loss == 2 %}Tie{% endif %}</p>
+                            </div>
+                            <div class="text-center">
+                                <p><strong>My Score:</strong></p>
+                                <p>{{ latest_match.my_score }}</p>
+                                <p><strong>Opponent Score:</strong></p>
+                                <p>{{ latest_match.opp_score }}</p>
+                                <p><strong>Kills:</strong></p>
+                                <p>{{ latest_match.kills }}</p>
+                                <p><strong>Deaths:</strong></p>
+                                <p>{{ latest_match.deaths }}</p>
+                                <p><strong>Assists:</strong></p>
+                                <p>{{ latest_match.assists }}</p>
+                                <p><strong>Headshot %:</strong></p>
+                                <p>{{ latest_match.headshot_percentage }}</p>
+                                <p><strong>ADR:</strong></p>
+                                <p>{{ latest_match.adr }}</p>
+                                <p><strong>ACS:</strong></p>
+                                <p>{{ latest_match.acs }}</p>
+                                <p><strong>Diary Entry:</strong></p>
+                                <p>{{ latest_match.diary_entry}}</p>
+                                <p><strong>YouTube Link:</strong></p>
+                                <p><a href="{{ latest_match.youtube_link }}" target="_blank">{{ latest_match.youtube_link }}</a></p>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p>No match entries found.</p>
+                    {% endif %}
                 </div>
-                <div class="row">
-                    <div class="col-md-6 offset-md-4">
-                        <h4>Goal Rank:</h4>
-                        <p><img src="{{ url_for('static', filename='img/' + rank_icons.get(user.goal_rank, 'default.jpg')) }}" style="width: 100px; height: 100px;"></p>
-                    </div>
-                </div>            
+            </div>
+
+            <div class="col-md-3 mt-4">
+                <div class="card bg-dark text-white p-3" style="height: 100%;">
+                    <h4 class="text-center mb-4">Daily Goals</h4>
+                    {% if daily_goals|length > 0 %}
+                        {% for goal in daily_goals %}
+                            <div class="mb-4">
+                                <p><strong> Date: {{ goal.goal_date.strftime('%B %dth, %Y') }}</strong></p>
+                                <p>{{ goal.daily_goal }}</p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-center">No daily goals found.</p>
+                    {% endif %}
+                </div>
             </div>
         </div>
-            <a href="/new/diary" class="btn btn-secondary btn-lg mx-2">New Diary Entry</a>
     </div>
+
+    <script src="{{ url_for('static', filename='js/particles.js-master/particles.js') }}"></script>
+    <script>
+        particlesJS('particles-container', {
+            particles: {
+                number: { value: 100 },
+                color: { value: '#dc3545' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5 },
+                size: { value: 3, random: true },
+                move: { enable: true, speed: 2 }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'repulse' },
+                    onclick: { enable: true, mode: 'push' }
+                }
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+
 </body>
 </html>

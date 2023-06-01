@@ -1,7 +1,9 @@
 from flask import render_template,request,session,redirect,flash
 from flask_app import app
-from flask_app import agent_images, rank_icons
+from flask_app import agent_images, rank_icons, map_loads
 from flask_app.models.user import User
+from flask_app.models.match import Match
+from flask_app.models.goal import Goal
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 
@@ -66,11 +68,59 @@ def dashboard():
     if 'user_id' not in session:
         return redirect('/logout')
     
-    user = User.get_one(session['user_id'])
+    user_id = session['user_id']
+    user = User.get_one(user_id)
+    matches = Match.get_all_by_user(user_id)
+    goals = Goal.get_all_by_user(user_id)
+    reversed_goals = list(reversed(goals))
 
-    return render_template('dashboard.html', user=user, rank_icons=rank_icons)
+    return render_template('dashboard.html', user=user, rank_icons=rank_icons, agent_images=agent_images, matches=matches, map_loads=map_loads, daily_goals=reversed_goals)
+
+@app.route('/edit')
+def edit():
+    if 'user_id' not in session:
+        return redirect('/logout')
+    
+    user_id = session['user_id']
+    user = User.get_one(user_id)
+
+    if not user:
+        return redirect('/logout')
+
+    return render_template('edit_profile.html', user=user)
+
+
+@app.route('/edit/profile/', methods=['POST'])
+def edit_profile():
+    if not User.validate_user_update(request.form):
+        return redirect('/edit')
+    
+    user_id = session['user_id']
+    
+    user_data = {
+        "id": user_id,
+        "first_name": request.form['first_name'],
+        "last_name": request.form['last_name'],
+        "email": request.form['email'],
+        "password": request.form['password'],
+        "confirm_password": request.form['confirm_password'],
+        "riot_identification": request.form['riot_identification'],
+        "favorite_agent": request.form['favorite_agent'],
+        "current_rank": request.form['current_rank'],
+        "goal_rank": request.form['goal_rank'],
+    }
+
+    hashed_password = bcrypt.generate_password_hash(user_data['password'])
+    user_data['password'] = hashed_password
+
+    User.update(user_data)
+
+    return redirect('/dashboard')
+
 
 @app.route('/logout')
 def logout():
+    session.pop('user_id', None)
     session.clear()
     return redirect('/')
+
