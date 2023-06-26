@@ -1,6 +1,6 @@
 # K.D.A.-Keeping-Diaries-Alive--Solo-Project-
 
-The are the files for the solo project I made for Coding Dojo! As of now it's in a V3 state post-bootcamp and fully finished and functional. Added a few tweaks. Deadlock revealed yesterday at VCT Tokyo. Will update when I have the files. 6/25/2023
+These are the files for the solo project I made for Coding Dojo! As of now it's in a V3 state post-bootcamp and fully finished and functional. Added a few tweaks. Deadlock revealed yesterday at VCT Tokyo. Will update when I have the files. 6/25/2023
 
 ## Description 
 K.D.A. is an application that provides users with a unique and immersive way to document their ranked matches. Embracing a diary-style approach, this app allows users to record their gameplay experiences and insights in an organized manner.
