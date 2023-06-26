@@ -6,51 +6,56 @@ import re
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$') 
 
 class User:
+    # The name of the database
+    db = "kda_schema"
 
-    db="kda_schema"
-
-    def __init__(self,data):
+    def __init__(self, data):
+        # Initialize User object with data from a dictionary
         self.id = data['id']
         self.first_name = data['first_name']
-        self.last_name=data['last_name']
-        self.email=data['email']
-        self.password=data['password']
-        self.riot_identification=data['riot_identification']
-        self.favorite_agent=data['favorite_agent']
-        self.current_rank=data['current_rank']
-        self.goal_rank=data['goal_rank']
-        self.created_at=data['created_at']
-        self.updated_at=data['updated_at']
+        self.last_name = data['last_name']
+        self.email = data['email']
+        self.password = data['password']
+        self.riot_identification = data['riot_identification']
+        self.favorite_agent = data['favorite_agent']
+        self.current_rank = data['current_rank']
+        self.goal_rank = data['goal_rank']
+        self.created_at = data['created_at']
+        self.updated_at = data['updated_at']
 
-    #Create
+    # Create a new user
     @classmethod
-    def save(cls,data):
-        query="INSERT INTO users(first_name,last_name,email,password,riot_identification,favorite_agent,current_rank,goal_rank) VALUES(%(first_name)s,%(last_name)s,%(email)s,%(password)s,%(riot_identification)s,%(favorite_agent)s,%(current_rank)s,%(goal_rank)s)"
-        results = connectToMySQL(cls.db).query_db(query,data)
+    def save(cls, data):
+        # Insert a new user record into the database
+        query = "INSERT INTO users(first_name, last_name, email, password, riot_identification, favorite_agent, current_rank, goal_rank) VALUES(%(first_name)s, %(last_name)s, %(email)s, %(password)s, %(riot_identification)s, %(favorite_agent)s, %(current_rank)s, %(goal_rank)s)"
+        results = connectToMySQL(cls.db).query_db(query, data)
         return results
 
-    #Get All
+    # Retrieve all users
     @classmethod
     def get_all(cls):
+        # Fetch all user records from the database
         query = "SELECT * FROM users;"
         results = connectToMySQL(cls.db).query_db(query)
         users = []
         for row in results:
-            users.append( cls(row))
+            users.append(cls(row))
         return users
 
-    #Get One By Email
+    # Retrieve a user by email
     @classmethod
     def get_one_by_email(cls, email):
-        query = "SELECT * FROM users WHERE email=%(email)s;"
+        # Fetch a user record from the database based on email
+        query = "SELECT * FROM users WHERE email = %(email)s;"
         results = connectToMySQL(cls.db).query_db(query, {'email': email})
         if not results:
             return False
         return cls(results[0])
 
-    #Get One
+    # Retrieve a user by ID
     @classmethod
     def get_one(cls, id):
+        # Fetch a user record from the database based on ID
         query = "SELECT * FROM users WHERE id = %(id)s;"
         data = {'id': id}
         result = connectToMySQL(cls.db).query_db(query, data)
@@ -58,24 +63,26 @@ class User:
             return False
         return cls(result[0])
 
-    #Update
+    # Update an existing user
     @classmethod
     def update(cls, data):
+        # Update a user record in the database
         query = "UPDATE users SET first_name = %(first_name)s, last_name = %(last_name)s, email = %(email)s, password = %(password)s, riot_identification = %(riot_identification)s, favorite_agent = %(favorite_agent)s, current_rank = %(current_rank)s, goal_rank = %(goal_rank)s WHERE id = %(id)s;"
         results = connectToMySQL(cls.db).query_db(query, data)
         return results
     
-    #Delete
+    # Delete a user
     @classmethod
     def delete(cls, id):
-        query = "DELETE FROM users WHERE id=%(id)s;"
+        # Delete a user record from the database
+        query = "DELETE FROM users WHERE id = %(id)s;"
         results = connectToMySQL(cls.db).query_db(query, {'id': id})
         return results
 
-    #User validation with flash messages grouped by register    
+    # User validation for registration with flash messages grouped by register    
     @staticmethod
     def validate_user(user):
-        is_valid=True
+        is_valid = True
         if len(user['first_name']) < 2:
             flash("First name must be at least 2 characters.", "register")
             is_valid = False
@@ -110,7 +117,7 @@ class User:
             flash("Must enter a goal rank. The creator of this app is hardstuck Diamond but he's got Ascendant dreams!", "register")
         return is_valid
     
-    #User validation with flash messages grouped by login  
+    # User validation for login with flash messages grouped by login  
     @staticmethod
     def validate_login(user):
         is_valid = True
@@ -128,15 +135,16 @@ class User:
             is_valid = False
         return is_valid
 
-    #check password hashing  
+    # Check password hashing  
     @staticmethod
     def check_password(password_hash, password):
+        # Check if the provided password matches the hashed password
         return check_password_hash(password_hash, password)
     
-    #validate updating user
+    # Validate updating user
     @staticmethod
     def validate_user_update(user):
-        is_valid=True
+        is_valid = True
         if len(user['first_name']) < 2:
             flash("First name must be at least 2 characters.", "register")
             is_valid = False

@@ -3,11 +3,11 @@ from flask_app.models import user
 from flask import flash
 import re
 
-
 class Match:
     db = "kda_schema"
 
     def __init__(self, data):
+        # Initialize Match object with data from the database
         self.id = data["id"]
         self.match_date = data["match_date"]
         self.start_rank = data["start_rank"]
@@ -31,13 +31,14 @@ class Match:
         self.user_id = data["user_id"]
         self.creator = None
 
-    # Combining all the matches to the users
     @classmethod
     def get_all(cls):
+        # Get all matches and their corresponding user information
         query = "SELECT * FROM matches JOIN users on matches.user_id = users.id;"
         results = connectToMySQL(cls.db).query_db(query)
         matches = []
         for row in results:
+            # Create a Match object for each row and associate it with a User object
             valorant_match = cls(row)
             user_data = {
                 "id": row["users.id"],
@@ -56,9 +57,9 @@ class Match:
             matches.append(valorant_match)
         return matches
 
-    # Need this to get a specific match from user
     @classmethod
     def get_one_by_id(cls, data):
+        # Get a specific match and its corresponding user information by match ID
         query = "SELECT * FROM matches JOIN users on matches.user_id = users.id WHERE matches.id = %(id)s;"
         result = connectToMySQL(cls.db).query_db(query, data)
         if not result:
@@ -82,9 +83,9 @@ class Match:
         one_match.creator = user.User(user_data)
         return one_match
 
-    # old method was not working, testing this way... jk broke it but now we have the way to get all the matches from a user
     @classmethod
     def get_all_by_user(cls, user_id):
+        # Get all matches associated with a specific user
         query = f"SELECT * FROM matches WHERE user_id = {user_id}"
         results = connectToMySQL(cls.db).query_db(query)
         matches = []
@@ -92,21 +93,21 @@ class Match:
             matches.append(cls(result))
         return matches
 
-    # Save
     @classmethod
     def save(cls, data):
+        # Save a new match entry to the database
         query = "INSERT INTO matches (match_date,start_rank,agent,map,team_mvp,match_mvp,win_loss,my_score,opp_score,kills,deaths,assists,headshot_percentage,adr,acs,diary_entry,youtube_link,user_id) VALUES (%(match_date)s,%(start_rank)s,%(agent)s,%(map)s,%(team_mvp)s,%(match_mvp)s,%(win_loss)s,%(my_score)s,%(opp_score)s,%(kills)s,%(deaths)s,%(assists)s,%(headshot_percentage)s,%(adr)s,%(acs)s,%(diary_entry)s,%(youtube_link)s,%(user_id)s);"
         return connectToMySQL(cls.db).query_db(query, data)
 
-    # Update
     @classmethod
     def update(cls, data):
+        # Update an existing match entry in the database
         query = "UPDATE matches SET match_date = %(match_date)s, start_rank = %(start_rank)s, agent = %(agent)s , map = %(map)s, team_mvp = %(team_mvp)s, match_mvp = %(match_mvp)s, win_loss = %(win_loss)s, my_score = %(my_score)s, opp_score = %(opp_score)s, kills = %(kills)s, deaths = %(deaths)s, assists = %(assists)s, headshot_percentage = %(headshot_percentage)s, adr = %(adr)s, acs = %(acs)s, diary_entry = %(diary_entry)s, youtube_link = %(youtube_link)s WHERE id = %(id)s;"
         return connectToMySQL(cls.db).query_db(query, data)
 
-    # Delete
     @classmethod
     def delete(cls, data):
+        # Delete a match entry from the database
         query = "DELETE FROM matches WHERE id = %(id)s;"
         return connectToMySQL(cls.db).query_db(query, data)
 

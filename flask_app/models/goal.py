@@ -3,21 +3,21 @@ from flask_app.models import user
 from flask import flash
 
 class Goal:
-    db="kda_schema"
+    db = "kda_schema"
 
     def __init__(self, data):
         self.id = data['id']
         self.goal_date = data['goal_date']
         self.daily_goal = data['daily_goal']
-        self.created_at=data['created_at']
-        self.updated_at=data['updated_at']
+        self.created_at = data['created_at']
+        self.updated_at = data['updated_at']
         self.user_id = data['user_id']
         self.creator = None
 
-    #Combining all the goals to the users
+    # Combining all the goals with their respective users
     @classmethod
     def get_all(cls):
-        query = "SELECT * FROM goals JOIN users on goals.user_id = users.id;"
+        query = "SELECT * FROM goals JOIN users ON goals.user_id = users.id;"
         results = connectToMySQL(cls.db).query_db(query)
         goals = []
         for row in results:
@@ -39,28 +39,28 @@ class Goal:
             goals.append(new_goal)
         return goals
     
-    #Need this to get a specific gaol from user
+    # Retrieve a specific goal by its ID
     @classmethod
-    def get_one_by_id(cls,data):
-        query = "SELECT * FROM goals JOIN users on goals.user_id = users.id WHERE goals.id = %(id)s;"
-        result = connectToMySQL(cls.db).query_db(query,data)
+    def get_one_by_id(cls, data):
+        query = "SELECT * FROM goals JOIN users ON goals.user_id = users.id WHERE goals.id = %(id)s;"
+        result = connectToMySQL(cls.db).query_db(query, data)
         if not result:
             return False
 
         result = result[0]
         one_goal = cls(result)
         user_data = {
-                "id": result['users.id'],
-                "first_name": result['first_name'],
-                "last_name": result['last_name'],
-                "email": result['email'],
-                "password": "",
-                "riot_identification": result['riot_identification'],
-                "favorite_agent": result['favorite_agent'],
-                "current_rank": result['current_rank'],
-                "goal_rank": result['goal_rank'],
-                "created_at": result['users.created_at'],
-                "updated_at": result['users.updated_at']
+            "id": result['users.id'],
+            "first_name": result['first_name'],
+            "last_name": result['last_name'],
+            "email": result['email'],
+            "password": "",
+            "riot_identification": result['riot_identification'],
+            "favorite_agent": result['favorite_agent'],
+            "current_rank": result['current_rank'],
+            "goal_rank": result['goal_rank'],
+            "created_at": result['users.created_at'],
+            "updated_at": result['users.updated_at']
         }
         one_goal.creator = user.User(user_data)
         return one_goal
@@ -74,27 +74,25 @@ class Goal:
             goals.append(cls(result))
         return goals
 
-    #Save
+    # Save a new goal
     @classmethod
     def save(cls, data):
         query = "INSERT INTO goals (goal_date, daily_goal, user_id) VALUES (%(goal_date)s, %(daily_goal)s, %(user_id)s);"
-        print("Save query:", query)  # Add this line to check the query
-        print("Save data:", data)    # Add this line to check the data
         return connectToMySQL(cls.db).query_db(query, data)
 
-    #Update
+    # Update an existing goal
     @classmethod
-    def update(cls,data):
+    def update(cls, data):
         query = "UPDATE goals SET goal_date = %(goal_date)s, daily_goal = %(daily_goal)s WHERE id = %(id)s;"
-        return connectToMySQL(cls.db).query_db(query,data)
+        return connectToMySQL(cls.db).query_db(query, data)
     
-    #Delete
+    # Delete a goal
     @classmethod
-    def delete(cls,data):
+    def delete(cls, data):
         query = "DELETE FROM goals WHERE id = %(id)s;"
-        return connectToMySQL(cls.db).query_db(query,data)
+        return connectToMySQL(cls.db).query_db(query, data)
     
-    #These are how we validate the goals going in the database
+    # Validate the goal data before saving or updating
     @staticmethod
     def validate_goal(data):
         is_valid = True
