@@ -21,11 +21,11 @@ With K.D.A., I can now record my thoughts, insights, and even include YouTube li
 My vision for K.D.A. is to create a companion for fellow gamers, a platform that inspires growth and engagement. I hope that K.D.A. can help players like me elevate their gameplay, capture memorable moments, and forge a deeper connection with their own journey in the competitive gaming world.
 
 ## Screenshots 
-![login page](/static/img/kda-screenhot-1-homepage.png)
+![login page](/flask_app/static/img/kda-screenhot-1-homepage.png)
 
-![dashboard](/static/img/kda-screenshot-2-dashboard.png)
+![dashboard](/flask_app/static/img/kda-screenshot-2-dashboard.png)
 
-![match stats cards](/static/img/kda-screenshot-3-stats.png)
+![match stats cards](/flask_app/static/img/kda-screenshot-3-stats.png)
 
 ## Links 
 
