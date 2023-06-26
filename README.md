@@ -36,4 +36,4 @@ My vision for K.D.A. is to create a companion for fellow gamers, a platform that
 
 ## Questions 
 
-If you have any inquiries or need assistance regarding the repository, please feel free to reach out to me. You can do so by opening an issue in the repository or by contacting me directly at deshawnxthomas@gmail.com. For more of my projects, you can explore my GitHub profile at [DeShawnThomas] or visit my website at https://www.deshawnthomas.com. I would be delighted to connect with you and answer any questions you may have.
+If you have any inquiries or need assistance regarding the repository, please feel free to reach out to me. You can do so by opening an issue in the repository or by contacting me directly at deshawnxthomas@gmail.com. For more of my projects, you can explore my GitHub profile at [DeShawnThomas](https://github.com/DeShawnThomas) or visit my website at https://www.deshawnthomas.com. I would be delighted to connect with you and answer any questions you may have.
