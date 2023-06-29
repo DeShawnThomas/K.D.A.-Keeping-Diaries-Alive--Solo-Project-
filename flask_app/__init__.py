@@ -4,6 +4,8 @@ app = Flask(__name__, static_url_path="/static")
 
 app.secret_key="You are so close."
 
+app.sqlalchemy_database_uri = "postgres://xohklxzyzxkafq:d93f04809bb42c6f8845e25b133e0108f44042b5e6937c02ddbec2a5fe6ab69e@ec2-34-202-127-5.compute-1.amazonaws.com:5432/detaa782blboe"
+
 agent_images = {
     "Brimstone": "Brimstone_icon.jpg",
     "Viper": "Viper_icon.png",
